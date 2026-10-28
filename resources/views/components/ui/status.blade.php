@@ -16,7 +16,7 @@
     $statusLabels = [
         'menunggu_verifikasi' => 'Menunggu verifikasi',
         'belum_bayar' => 'Belum bayar',
-        'belum_dibayar' => 'Belum bayar',
+        'belum_dibayar' => 'Belum dibayar',
         'batal' => 'Batal',
         'dipanggil' => 'Sedang dipanggil',
         'selesai' => 'Selesai',

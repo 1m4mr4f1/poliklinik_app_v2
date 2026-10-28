@@ -20,6 +20,36 @@
             </div>
         </div>
 
+        <div class="grid gap-3 sm:grid-cols-3">
+            <x-ui.card href="{{ route('pasien.pendaftaran.create') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-called-bg text-clinic-called transition-colors group-hover:bg-clinic-primary group-hover:text-white">
+                    <i class="fas fa-clipboard-list"></i>
+                </span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-xs text-clinic-secondary">Layanan Poli</p>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Daftar Poli</span>
+                </div>
+            </x-ui.card>
+            <x-ui.card href="{{ route('pasien.riwayat.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-done-bg text-clinic-done transition-colors group-hover:bg-clinic-primary group-hover:text-white">
+                    <i class="fas fa-clock-rotate-left"></i>
+                </span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-xs text-clinic-secondary">Catatan Medis</p>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Riwayat Pemeriksaan</span>
+                </div>
+            </x-ui.card>
+            <x-ui.card href="{{ route('pasien.pembayaran.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-800 transition-colors group-hover:bg-emerald-600 group-hover:text-white">
+                    <i class="fas fa-receipt"></i>
+                </span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-xs text-clinic-secondary">Tagihan Biaya</p>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Status Pembayaran</span>
+                </div>
+            </x-ui.card>
+        </div>
+
         @if ($pendaftaranAktif)
             @php
                 $jadwalAktif = $pendaftaranAktif->jadwalPeriksa;
@@ -35,7 +65,7 @@
             >
                 <div class="flex items-center justify-between border-b border-white/30 pb-3">
                     <span class="text-xs font-semibold uppercase tracking-wider text-blue-100">
-                        <i class="fas fa-ticket mr-1"></i> Antrean Aktif Anda Hari Ini
+                        <i class="fas fa-ticket mr-1"></i> Antrian aktif Anda Hari Ini
                     </span>
                     <span class="rounded bg-white/20 px-2 py-0.5 text-xs font-medium text-white">
                         {{ $pendaftaranAktif->tanggal_janji->translatedFormat('d F Y') }}
@@ -56,7 +86,7 @@
                         <p class="mt-1 text-sm font-medium text-white">{{ $jadwalAktif->hari }}, {{ substr($jadwalAktif->jam_mulai, 0, 5) }}&ndash;{{ substr($jadwalAktif->jam_selesai, 0, 5) }}</p>
                     </div>
                     <div class="rounded-control bg-white/20 p-3 text-center sm:text-left">
-                        <p class="text-xs text-blue-100">Nomor Antrean Anda</p>
+                        <p class="text-xs text-blue-100">Nomor antrian Anda</p>
                         <p class="mt-1 text-3xl font-extrabold tabular-nums text-white">#{{ $pendaftaranAktif->no_antrian }}</p>
                     </div>
                 </div>

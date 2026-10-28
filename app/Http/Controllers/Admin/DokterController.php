@@ -21,6 +21,7 @@ class DokterController extends Controller
         return view('admin.shared.index', [
             'title' => 'Manajemen Dokter',
             'createRoute' => route('admin.dokter.create'),
+            'exportRoute' => route('admin.export.dokter'),
             'columns' => ['Nama', 'Poli', 'Email', 'No. HP'],
             'items' => $dokters->through(fn (User $dokter) => [
                 'values' => [$dokter->nama, $dokter->poli?->nama_poli ?? 'Belum ditentukan', $dokter->email, $dokter->no_hp],

@@ -27,9 +27,14 @@ class UserSeeder extends Seeder
             }
         }
 
-        $poli = Poli::firstOrCreate(
+        $poliUmum = Poli::firstOrCreate(
             ['nama_poli' => 'Umum'],
             ['keterangan' => 'Poli umum untuk pemeriksaan pasien.'],
+        );
+
+        $poliGigi = Poli::firstOrCreate(
+            ['nama_poli' => 'Gigi'],
+            ['keterangan' => 'Poli gigi untuk pemeriksaan pasien.'],
         );
 
         User::updateOrCreate(
@@ -37,30 +42,36 @@ class UserSeeder extends Seeder
             ['nama' => 'Admin Poliklinik', 'role' => 'admin', 'password' => $passwords['admin']],
         );
 
-        $dokter = User::updateOrCreate(
+        $dokterUmum = User::updateOrCreate(
             ['email' => 'dokter@polipoli.test'],
             [
                 'nama' => 'Dr. Budi Santoso',
                 'role' => 'dokter',
-                'id_poli' => $poli->id,
+                'id_poli' => $poliUmum->id,
                 'password' => $passwords['dokter'],
             ],
         );
 
-        $hariIni = [
-            0 => 'Minggu',
-            1 => 'Senin',
-            2 => 'Selasa',
-            3 => 'Rabu',
-            4 => 'Kamis',
-            5 => 'Jumat',
-            6 => 'Sabtu',
-        ][today()->dayOfWeek];
-
-        JadwalPeriksa::updateOrCreate(
-            ['id_dokter' => $dokter->id, 'hari' => $hariIni, 'jam_mulai' => '09:00'],
-            ['jam_selesai' => '12:00'],
+        $dokterGigi = User::updateOrCreate(
+            ['email' => 'dokter2@polipoli.test'],
+            [
+                'nama' => 'Dr. Rina Putri Wijaya',
+                'role' => 'dokter',
+                'id_poli' => $poliGigi->id,
+                'password' => $passwords['dokter'],
+            ],
         );
+
+        $hariKerja = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+
+        foreach ([$dokterUmum, $dokterGigi] as $dokter) {
+            foreach ($hariKerja as $hari) {
+                JadwalPeriksa::updateOrCreate(
+                    ['id_dokter' => $dokter->id, 'hari' => $hari, 'jam_mulai' => '09:00'],
+                    ['jam_selesai' => '12:00'],
+                );
+            }
+        }
 
         foreach (range(1, 4) as $number) {
             User::updateOrCreate(

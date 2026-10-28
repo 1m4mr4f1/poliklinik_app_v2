@@ -157,6 +157,12 @@ class BatchThreeFeaturesTest extends TestCase
         $obat = Obat::create(['nama_obat' => 'Paracetamol', 'kemasan' => 'Tablet', 'harga' => 5000, 'stok' => 12]);
         $admin = $this->makeUser('admin', 'admin');
 
+        $this->actingAs($admin)->get(route('admin.dokter.index'))->assertOk()->assertSee(route('admin.export.dokter'));
+        $this->actingAs($admin)->get(route('admin.pasien.index'))->assertOk()->assertSee(route('admin.export.pasien'));
+        $this->actingAs($admin)->get(route('admin.obat.index'))->assertOk()->assertSee(route('admin.export.obat'));
+        $this->actingAs($dokter)->get(route('dokter.jadwal-periksa.index'))->assertOk()->assertSee(route('dokter.export.jadwal'));
+        $this->actingAs($dokter)->get(route('dokter.riwayat-pasien.index'))->assertOk()->assertSee(route('dokter.export.riwayat'));
+
         $this->actingAs($admin)->get(route('admin.export.dokter'))->assertOk();
         Excel::assertDownloaded('dokter.xlsx');
         $this->actingAs($admin)->get(route('admin.export.pasien'))->assertOk();

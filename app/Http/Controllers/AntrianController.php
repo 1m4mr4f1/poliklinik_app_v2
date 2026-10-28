@@ -94,17 +94,21 @@ class AntrianController extends Controller
             );
         }
 
-        AntrianDiperbarui::dispatch(
-            (int) $jadwalPeriksa->id,
-            today()->toDateString(),
-            $nomorDipanggil['dipanggil'],
-            $nomorDipanggil['diperiksa'],
-            DaftarPoli::query()
-                ->where('id_jadwal', $jadwalPeriksa->id)
-                ->whereDate('tanggal_janji', today())
-                ->whereDoesntHave('periksa')
-                ->count(),
-        );
+        try {
+            AntrianDiperbarui::dispatch(
+                (int) $jadwalPeriksa->id,
+                today()->toDateString(),
+                $nomorDipanggil['dipanggil'],
+                $nomorDipanggil['diperiksa'],
+                DaftarPoli::query()
+                    ->where('id_jadwal', $jadwalPeriksa->id)
+                    ->whereDate('tanggal_janji', today())
+                    ->whereDoesntHave('periksa')
+                    ->count(),
+            );
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
 
         return back()->with('success', "Nomor antrian {$nomorDipanggil['dipanggil']} berhasil dipanggil.");
     }

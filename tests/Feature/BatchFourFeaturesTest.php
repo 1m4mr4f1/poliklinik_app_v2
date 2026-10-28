@@ -166,6 +166,31 @@ class BatchFourFeaturesTest extends TestCase
         );
     }
 
+    public function test_doctor_can_specify_custom_doctor_fee_for_examination(): void
+    {
+        [$pasien, $jadwal, $dokter, $pendaftaran] = $this->makeRegistration();
+        $obat = Obat::create([
+            'nama_obat' => 'Vitamin C',
+            'kemasan' => 'Tablet',
+            'harga' => 10000,
+        ]);
+
+        $this->actingAs($dokter)
+            ->post(route('dokter.antrian.panggil-berikutnya', $jadwal));
+
+        $this->actingAs($dokter)
+            ->post(route('dokter.pemeriksaan.store', $pendaftaran), [
+                'catatan' => 'Pasien butuh istirahat.',
+                'biaya_dokter' => 200000,
+                'obat_ids' => [$obat->id],
+            ])
+            ->assertRedirect(route('dokter.dashboard'))
+            ->assertSessionHas('success');
+
+        $periksa = Periksa::where('id_daftar_poli', $pendaftaran->id)->firstOrFail();
+        $this->assertSame(210000, $periksa->biaya_periksa);
+    }
+
     public function test_all_roles_can_change_only_their_own_password_after_validation(): void
     {
         foreach (['admin', 'dokter', 'pasien'] as $role) {

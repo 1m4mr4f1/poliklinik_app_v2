@@ -5,9 +5,14 @@
                 <h1 class="text-xl font-bold text-clinic-text">Jadwal Periksa</h1>
                 <p class="mt-1 text-sm text-clinic-secondary">Jadwal praktik yang dikelola untuk akun dokter ini.</p>
             </div>
-            <x-ui.button href="{{ route('dokter.jadwal-periksa.create') }}" variant="primary">
-                <i class="fas fa-plus mr-1"></i> Tambah Jadwal
-            </x-ui.button>
+            <div class="flex flex-wrap items-center gap-2">
+                <x-ui.button href="{{ route('dokter.export.jadwal') }}" variant="secondary" data-no-page-loading>
+                    <i class="fas fa-file-excel mr-1"></i> Export Excel
+                </x-ui.button>
+                <x-ui.button href="{{ route('dokter.jadwal-periksa.create') }}" variant="primary">
+                    <i class="fas fa-plus mr-1"></i> Tambah Jadwal
+                </x-ui.button>
+            </div>
         </div>
 
         @if($jadwals->isEmpty())
@@ -37,8 +42,7 @@
                                           data-confirm="Hapus jadwal praktik ini?"
                                           data-confirm-type="danger"
                                           data-confirm-title="Hapus Jadwal"
-                                          data-confirm-ok="Ya, hapus"
-                                          onsubmit="return confirm('Hapus jadwal ini?')">
+                                          data-confirm-ok="Ya, hapus">
                                         @csrf
                                         @method('DELETE')
                                         <x-ui.button type="submit" variant="danger" class="text-xs">

@@ -66,6 +66,11 @@ class JadwalPeriksaController extends Controller
 
     private function validated(Request $request): array
     {
+        $request->merge([
+            'jam_mulai' => is_string($request->input('jam_mulai')) ? substr($request->input('jam_mulai'), 0, 5) : $request->input('jam_mulai'),
+            'jam_selesai' => is_string($request->input('jam_selesai')) ? substr($request->input('jam_selesai'), 0, 5) : $request->input('jam_selesai'),
+        ]);
+
         $data = $request->validate([
             'hari' => ['required', 'string', 'in:'.implode(',', self::HARI)],
             'jam_mulai' => ['required', 'date_format:H:i'],
@@ -112,8 +117,8 @@ class JadwalPeriksaController extends Controller
             'backUrl' => route('dokter.jadwal-periksa.index'),
             'fields' => [
                 ['name' => 'hari', 'label' => 'Hari', 'type' => 'select', 'value' => $jadwal->hari, 'required' => true, 'options' => array_combine(self::HARI, self::HARI)],
-                ['name' => 'jam_mulai', 'label' => 'Jam Mulai', 'type' => 'time', 'value' => $jadwal->jam_mulai, 'required' => true],
-                ['name' => 'jam_selesai', 'label' => 'Jam Selesai', 'type' => 'time', 'value' => $jadwal->jam_selesai, 'required' => true],
+                ['name' => 'jam_mulai', 'label' => 'Jam Mulai', 'type' => 'time', 'value' => $jadwal->jam_mulai ? substr((string) $jadwal->jam_mulai, 0, 5) : null, 'required' => true],
+                ['name' => 'jam_selesai', 'label' => 'Jam Selesai', 'type' => 'time', 'value' => $jadwal->jam_selesai ? substr((string) $jadwal->jam_selesai, 0, 5) : null, 'required' => true],
             ],
         ]);
     }

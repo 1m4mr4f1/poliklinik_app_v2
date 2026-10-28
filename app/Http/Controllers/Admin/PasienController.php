@@ -20,6 +20,7 @@ class PasienController extends Controller
         return view('admin.shared.index', [
             'title' => 'Manajemen Pasien',
             'createRoute' => route('admin.pasien.create'),
+            'exportRoute' => route('admin.export.pasien'),
             'columns' => ['Nama', 'No. RM', 'Email', 'No. HP'],
             'items' => $pasiens->through(fn (User $pasien) => [
                 'values' => [$pasien->nama, $pasien->no_rm, $pasien->email, $pasien->no_hp],

@@ -19,49 +19,49 @@
         </div>
 
         <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            <x-ui.card class="flex items-center gap-3">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-called-bg text-clinic-called">
+            <x-ui.card href="{{ route('admin.polis.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-called-bg text-clinic-called transition-colors group-hover:bg-clinic-primary group-hover:text-white">
                     <i class="fas fa-hospital"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs text-clinic-secondary">Poli</p>
-                    <a href="{{ route('admin.polis.index') }}" class="font-semibold text-clinic-primary hover:underline text-sm truncate block">Manajemen Poli</a>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Manajemen Poli</span>
                 </div>
             </x-ui.card>
-            <x-ui.card class="flex items-center gap-3">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-called-bg text-clinic-called">
+            <x-ui.card href="{{ route('admin.dokter.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-called-bg text-clinic-called transition-colors group-hover:bg-clinic-primary group-hover:text-white">
                     <i class="fas fa-user-doctor"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs text-clinic-secondary">Dokter</p>
-                    <a href="{{ route('admin.dokter.index') }}" class="font-semibold text-clinic-primary hover:underline text-sm truncate block">Manajemen Dokter</a>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Manajemen Dokter</span>
                 </div>
             </x-ui.card>
-            <x-ui.card class="flex items-center gap-3">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-done-bg text-clinic-done">
+            <x-ui.card href="{{ route('admin.pasien.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-done-bg text-clinic-done transition-colors group-hover:bg-clinic-primary group-hover:text-white">
                     <i class="fas fa-user-injured"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs text-clinic-secondary">Pasien</p>
-                    <a href="{{ route('admin.pasien.index') }}" class="font-semibold text-clinic-primary hover:underline text-sm truncate block">Manajemen Pasien</a>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Manajemen Pasien</span>
                 </div>
             </x-ui.card>
-            <x-ui.card class="flex items-center gap-3">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-waiting-bg text-clinic-waiting">
+            <x-ui.card href="{{ route('admin.obat.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-waiting-bg text-clinic-waiting transition-colors group-hover:bg-clinic-primary group-hover:text-white">
                     <i class="fas fa-pills"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs text-clinic-secondary">Obat</p>
-                    <a href="{{ route('admin.obat.index') }}" class="font-semibold text-clinic-primary hover:underline text-sm truncate block">Manajemen Obat</a>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Manajemen Obat</span>
                 </div>
             </x-ui.card>
-            <x-ui.card class="flex items-center gap-3">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-800">
+            <x-ui.card href="{{ route('admin.pembayaran.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-800 transition-colors group-hover:bg-emerald-600 group-hover:text-white">
                     <i class="fas fa-money-check-dollar"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs text-clinic-secondary">Pembayaran</p>
-                    <a href="{{ route('admin.pembayaran.index') }}" class="font-semibold text-clinic-primary hover:underline text-sm truncate block">Verifikasi Bayar</a>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Verifikasi Bayar</span>
                 </div>
             </x-ui.card>
         </div>

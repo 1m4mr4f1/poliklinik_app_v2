@@ -146,9 +146,24 @@ class FoundationManagementTest extends TestCase
             ->assertNotFound();
 
         $this->actingAs($dokter)
+            ->get(route('dokter.jadwal-periksa.edit', $jadwal))
+            ->assertOk()
+            ->assertSee('value="09:00"', false)
+            ->assertSee('value="12:00"', false);
+
+        $this->actingAs($dokter)
+            ->put(route('dokter.jadwal-periksa.update', $jadwal), [
+                'hari' => 'Selasa',
+                'jam_mulai' => '09:00:00',
+                'jam_selesai' => '12:00:00',
+            ])
+            ->assertRedirect(route('dokter.jadwal-periksa.index'))
+            ->assertSessionHas('success');
+
+        $this->actingAs($dokter)
             ->get(route('dokter.jadwal-periksa.index'))
             ->assertOk()
-            ->assertSee('Senin');
+            ->assertSee('Selasa');
     }
 
     private function user(string $role): User

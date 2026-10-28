@@ -16,31 +16,31 @@
         </div>
 
         <div class="grid gap-3 sm:grid-cols-3">
-            <x-ui.card class="flex items-center gap-3">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-called-bg text-clinic-called">
+            <x-ui.card href="{{ route('dokter.periksa-pasien.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-called-bg text-clinic-called transition-colors group-hover:bg-clinic-primary group-hover:text-white">
                     <i class="fas fa-stethoscope"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs text-clinic-secondary">Antrean & Pemeriksaan</p>
-                    <a href="{{ route('dokter.periksa-pasien.index') }}" class="font-semibold text-clinic-primary hover:underline text-sm truncate block">Periksa Pasien</a>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Periksa Pasien</span>
                 </div>
             </x-ui.card>
-            <x-ui.card class="flex items-center gap-3">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-waiting-bg text-clinic-waiting">
+            <x-ui.card href="{{ route('dokter.jadwal-periksa.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-waiting-bg text-clinic-waiting transition-colors group-hover:bg-clinic-primary group-hover:text-white">
                     <i class="fas fa-calendar-days"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs text-clinic-secondary">Manajemen</p>
-                    <a href="{{ route('dokter.jadwal-periksa.index') }}" class="font-semibold text-clinic-primary hover:underline text-sm truncate block">Jadwal Periksa</a>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Jadwal Periksa</span>
                 </div>
             </x-ui.card>
-            <x-ui.card class="flex items-center gap-3">
-                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-done-bg text-clinic-done">
+            <x-ui.card href="{{ route('dokter.riwayat-pasien.index') }}" class="flex items-center gap-3 group">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-done-bg text-clinic-done transition-colors group-hover:bg-clinic-primary group-hover:text-white">
                     <i class="fas fa-file-medical"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs text-clinic-secondary">Catatan Medis</p>
-                    <a href="{{ route('dokter.riwayat-pasien.index') }}" class="font-semibold text-clinic-primary hover:underline text-sm truncate block">Riwayat Pasien</a>
+                    <span class="font-semibold text-clinic-primary group-hover:underline text-sm truncate block">Riwayat Pasien</span>
                 </div>
             </x-ui.card>
         </div>

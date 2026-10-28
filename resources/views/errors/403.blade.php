@@ -16,7 +16,9 @@
                     <i class="fas fa-circle-exclamation text-amber-600"></i>
                     Informasi Sesi Login Anda
                 </p>
-                @if(auth()->check())
+                @if(!empty($exception?->getMessage()) && $exception->getMessage() !== 'Unauthorized.')
+                    <p>{{ $exception->getMessage() }}</p>
+                @elseif(auth()->check())
                     <p>
                         Saat ini Anda sedang masuk sebagai <strong>{{ auth()->user()->nama ?? auth()->user()->name }}</strong> dengan peran/role <span class="badge badge-sm uppercase font-bold text-white bg-slate-700">{{ auth()->user()->role }}</span>. Halaman yang Anda buka membutuhkan hak akses untuk role yang berbeda.
                     </p>

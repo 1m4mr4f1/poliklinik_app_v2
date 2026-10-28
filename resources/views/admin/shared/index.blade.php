@@ -5,9 +5,16 @@
                 <h1 class="text-xl font-bold text-clinic-text">{{ $title }}</h1>
                 <p class="mt-1 text-sm text-clinic-secondary">Kelola data dan pastikan informasi tetap terbaru.</p>
             </div>
-            <x-ui.button href="{{ $createRoute }}" variant="primary">
-                <i class="fas fa-plus mr-1"></i> Tambah Data
-            </x-ui.button>
+            <div class="flex flex-wrap items-center gap-2">
+                @if (! empty($exportRoute))
+                    <x-ui.button href="{{ $exportRoute }}" variant="secondary" data-no-page-loading>
+                        <i class="fas fa-file-excel mr-1"></i> Export Excel
+                    </x-ui.button>
+                @endif
+                <x-ui.button href="{{ $createRoute }}" variant="primary">
+                    <i class="fas fa-plus mr-1"></i> Tambah Data
+                </x-ui.button>
+            </div>
         </div>
 
         @if($items->isEmpty())
@@ -37,8 +44,7 @@
                                           data-confirm="Hapus data ini secara permanen?"
                                           data-confirm-type="danger"
                                           data-confirm-title="Hapus Data"
-                                          data-confirm-ok="Ya, hapus"
-                                          onsubmit="return confirm('Hapus data ini?')">
+                                          data-confirm-ok="Ya, hapus">
                                         @csrf
                                         @method('DELETE')
                                         <x-ui.button type="submit" variant="danger" class="text-xs">

@@ -17,6 +17,7 @@ class ObatController extends Controller
         return view('admin.shared.index', [
             'title' => 'Manajemen Obat',
             'createRoute' => route('admin.obat.create'),
+            'exportRoute' => route('admin.export.obat'),
             'columns' => ['Nama Obat', 'Kemasan', 'Stok', 'Harga'],
             'items' => $obats->through(fn (Obat $obat) => [
                 'values' => [$obat->nama_obat, $obat->kemasan ?: '—', $obat->stok, 'Rp'.number_format($obat->harga, 0, ',', '.')],

@@ -11,7 +11,7 @@
                 @method('PUT')
 
                 <div class="space-y-1">
-                    <label class="block text-xs font-medium text-clinic-secondary" for="current_password">Password saat ini</label>
+                    <label class="block text-xs font-medium text-clinic-secondary" for="current_password">Password lama</label>
                     <input class="ui-input @error('current_password') border-clinic-danger @enderror"
                            id="current_password" name="current_password" type="password"
                            autocomplete="current-password" required>

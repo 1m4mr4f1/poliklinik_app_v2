@@ -41,8 +41,7 @@
                               data-confirm="Konfirmasi pembayaran ini sebagai lunas?"
                               data-confirm-type="warning"
                               data-confirm-title="Konfirmasi Pembayaran"
-                              data-confirm-ok="Ya, konfirmasi lunas"
-                              onsubmit="return confirm('Konfirmasi pembayaran ini sebagai lunas?')">
+                              data-confirm-ok="Ya, konfirmasi lunas">
                             @csrf
                             <x-ui.button type="submit" variant="primary">
                                 <i class="fas fa-check mr-1"></i> Konfirmasi lunas

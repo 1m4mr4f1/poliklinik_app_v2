@@ -1,8 +1,13 @@
 <x-layouts.app title="Riwayat Pasien">
     <div class="mx-auto max-w-7xl space-y-4">
-        <div>
-            <h1 class="text-xl font-bold text-clinic-text">Riwayat Pasien</h1>
-            <p class="mt-1 text-sm text-clinic-secondary">Riwayat pemeriksaan pasien pada jadwal praktik Anda.</p>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold text-clinic-text">Riwayat Pasien</h1>
+                <p class="mt-1 text-sm text-clinic-secondary">Riwayat pemeriksaan pasien pada jadwal praktik Anda.</p>
+            </div>
+            <x-ui.button href="{{ route('dokter.export.riwayat') }}" variant="secondary" data-no-page-loading>
+                <i class="fas fa-file-excel mr-1"></i> Export Excel
+            </x-ui.button>
         </div>
 
         @if($riwayatPasien->isEmpty())

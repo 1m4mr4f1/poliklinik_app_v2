@@ -23,7 +23,7 @@ class PemeriksaanController extends Controller
     {
         $daftarPasien = DaftarPoli::query()
             ->whereHas('jadwalPeriksa', fn ($query) => $query->where('id_dokter', Auth::id()))
-            ->with(['pasien', 'jadwalPeriksa', 'periksa'])
+            ->with(['pasien', 'jadwalPeriksa.antrianHariIni', 'periksa'])
             ->whereDate('tanggal_janji', today())
             ->orderBy('no_antrian')
             ->paginate(20);
@@ -43,8 +43,11 @@ class PemeriksaanController extends Controller
     public function store(StorePemeriksaanRequest $request, DaftarPoli $daftarPoli): RedirectResponse
     {
         $obatIds = $request->validated('obat_ids', []);
+        $biayaDokter = $request->validated('biaya_dokter') !== null
+            ? (int) $request->validated('biaya_dokter')
+            : self::BIAYA_JASA_DOKTER;
 
-        $nomorDiperiksa = DB::transaction(function () use ($request, $daftarPoli, $obatIds): int {
+        $nomorDiperiksa = DB::transaction(function () use ($request, $daftarPoli, $obatIds, $biayaDokter): int {
             $lockedRegistration = DaftarPoli::query()
                 ->whereKey($daftarPoli->id)
                 ->lockForUpdate()
@@ -56,7 +59,7 @@ class PemeriksaanController extends Controller
                 'id_daftar_poli' => $lockedRegistration->id,
                 'tgl_periksa' => now(),
                 'catatan' => $request->validated('catatan'),
-                'biaya_periksa' => $biayaObat + self::BIAYA_JASA_DOKTER,
+                'biaya_periksa' => $biayaObat + $biayaDokter,
             ]);
 
             foreach ($obatIds as $obatId) {
@@ -77,17 +80,21 @@ class PemeriksaanController extends Controller
             return (int) $antrianHarian->no_antrian_diperiksa;
         });
 
-        AntrianDiperbarui::dispatch(
-            (int) $daftarPoli->id_jadwal,
-            today()->toDateString(),
-            (int) $daftarPoli->no_antrian,
-            $nomorDiperiksa,
-            DaftarPoli::query()
-                ->where('id_jadwal', $daftarPoli->id_jadwal)
-                ->whereDate('tanggal_janji', today())
-                ->whereDoesntHave('periksa')
-                ->count(),
-        );
+        try {
+            AntrianDiperbarui::dispatch(
+                (int) $daftarPoli->id_jadwal,
+                today()->toDateString(),
+                (int) $daftarPoli->no_antrian,
+                $nomorDiperiksa,
+                DaftarPoli::query()
+                    ->where('id_jadwal', $daftarPoli->id_jadwal)
+                    ->whereDate('tanggal_janji', today())
+                    ->whereDoesntHave('periksa')
+                    ->count(),
+            );
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
 
         return redirect()->route('dokter.dashboard')->with('success', 'Pemeriksaan selesai dan tagihan pasien telah dibuat.');
     }
@@ -99,6 +106,7 @@ class PemeriksaanController extends Controller
         abort_unless(
             (int) $daftarPoli->jadwalPeriksa?->id_dokter === (int) Auth::id(),
             403,
+            'Pasien ini tidak terdaftar pada jadwal praktik Anda.',
         );
         abort_unless($daftarPoli->tanggal_janji->isToday(), 404);
         abort_if($daftarPoli->periksa, 404);
@@ -108,6 +116,10 @@ class PemeriksaanController extends Controller
             ->whereDate('tanggal', today())
             ->value('no_antrian_dipanggil');
 
-        abort_unless((int) $nomorDipanggil === (int) $daftarPoli->no_antrian, 403);
+        abort_unless(
+            (int) $nomorDipanggil === (int) $daftarPoli->no_antrian,
+            403,
+            'Panggil nomor antrian pasien ini terlebih dahulu sebelum melakukan pemeriksaan.',
+        );
     }
 }

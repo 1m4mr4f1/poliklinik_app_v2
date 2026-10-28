@@ -20,8 +20,16 @@ class StorePemeriksaanRequest extends FormRequest
     {
         return [
             'catatan' => ['nullable', 'string', 'max:5000'],
+            'biaya_dokter' => ['nullable', 'integer', 'min:0', 'max:100000000'],
             'obat_ids' => ['nullable', 'array'],
             'obat_ids.*' => ['integer', 'distinct', 'exists:obat,id'],
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'biaya_dokter' => 'biaya jasa dokter',
         ];
     }
 }

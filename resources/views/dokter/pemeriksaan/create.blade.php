@@ -38,6 +38,23 @@
                     @enderror
                 </div>
 
+                <div class="space-y-1">
+                    <label class="block text-xs font-medium text-clinic-secondary" for="biaya_dokter">
+                        Biaya Jasa Dokter <span class="text-clinic-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-xs font-semibold text-clinic-muted">Rp</span>
+                        <input class="ui-input pl-9 @error('biaya_dokter') border-clinic-danger @enderror"
+                               type="number" id="biaya_dokter" name="biaya_dokter" min="0" step="1000"
+                               value="{{ old('biaya_dokter', 150000) }}" required
+                               placeholder="150000">
+                    </div>
+                    <p class="text-[11px] text-clinic-muted">Tentukan tarif jasa periksa dokter untuk pasien ini (dapat diubah sesuai tindakan).</p>
+                    @error('biaya_dokter')
+                        <p class="text-xs text-clinic-danger" role="alert">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="space-y-2">
                     <label class="block text-xs font-medium text-clinic-secondary">Obat yang diberikan (opsional)</label>
                     @error('obat_ids')
@@ -72,7 +89,7 @@
 
                 <div class="flex items-center justify-between border-t border-clinic-border pt-4">
                     <div>
-                        <p class="text-xs text-clinic-secondary">Total tagihan (termasuk jasa dokter Rp150.000)</p>
+                        <p class="text-xs text-clinic-secondary" id="total-breakdown-text">Total tagihan (jasa dokter + obat)</p>
                         <p class="text-lg font-bold tabular-nums text-clinic-text" id="estimated-total">Rp150.000</p>
                     </div>
                     <x-ui.button type="submit" variant="primary">
@@ -86,14 +103,31 @@
     @push('scripts')
     <script>
         const medicineChoices = document.querySelectorAll('.medicine-choice');
+        const biayaDokterInput = document.getElementById('biaya_dokter');
         const totalElement = document.getElementById('estimated-total');
+        const breakdownElement = document.getElementById('total-breakdown-text');
+
         const updateTotal = () => {
-            const total = [...medicineChoices]
+            const rawDoctorFee = parseInt(biayaDokterInput?.value, 10);
+            const doctorFee = isNaN(rawDoctorFee) || rawDoctorFee < 0 ? 0 : rawDoctorFee;
+            const medicineTotal = [...medicineChoices]
                 .filter((choice) => choice.checked)
-                .reduce((sum, choice) => sum + Number(choice.dataset.price), 150000);
-            totalElement.textContent = `Rp${new Intl.NumberFormat('id-ID').format(total)}`;
+                .reduce((sum, choice) => sum + Number(choice.dataset.price), 0);
+            const total = doctorFee + medicineTotal;
+
+            if (totalElement) {
+                totalElement.textContent = `Rp${new Intl.NumberFormat('id-ID').format(total)}`;
+            }
+            if (breakdownElement) {
+                breakdownElement.textContent = `Total tagihan (Jasa: Rp${new Intl.NumberFormat('id-ID').format(doctorFee)} + Obat: Rp${new Intl.NumberFormat('id-ID').format(medicineTotal)})`;
+            }
         };
+
         medicineChoices.forEach((choice) => choice.addEventListener('change', updateTotal));
+        if (biayaDokterInput) {
+            biayaDokterInput.addEventListener('input', updateTotal);
+            biayaDokterInput.addEventListener('change', updateTotal);
+        }
         updateTotal();
     </script>
     @endpush
